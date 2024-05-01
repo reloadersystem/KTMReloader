@@ -30,13 +30,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import data.ExpenseManager
 import getColorsTheme
 import kotlinproject.composeapp.generated.resources.Res
 import model.Expense
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExpensesScreen() {
+fun ExpensesScreen(onExpenseClick: (expense: Expense) -> Unit) {
 
     val colors = getColorsTheme()
 
@@ -54,9 +55,9 @@ fun ExpensesScreen() {
             }
 
         }
-        this.items(emptyList<String>()) {
-            //Composables
-
+        //esto es solo para muestra es la Ui no se hace los eventos
+        this.items(ExpenseManager.fakeExpenseList) { expense ->
+            ExpensesItem(expense = expense, onExpenseClick =  onExpenseClick)
         }
     }
 }
