@@ -12,4 +12,6 @@ interface ExpenseRepository {
     fun editExpense(expense: Expense)
 
     fun getCategories(): List<ExpenseCategory>
+
+    fun deleteExpense(expense: Expense): List<Expense>
 }
