@@ -34,10 +34,11 @@ import data.ExpenseManager
 import getColorsTheme
 import kotlinproject.composeapp.generated.resources.Res
 import model.Expense
+import presentacion.ExpensesUiState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExpensesScreen(onExpenseClick: (expense: Expense) -> Unit) {
+fun ExpensesScreen(uiState: ExpensesUiState, onExpenseClick: (expense: Expense) -> Unit) {
 
     val colors = getColorsTheme()
 
@@ -50,13 +51,13 @@ fun ExpensesScreen(onExpenseClick: (expense: Expense) -> Unit) {
 
             Column(modifier = Modifier.background(colors.backGroundColor)) {
 
-                ExpenseTotalHeader(1023.3)
+                ExpenseTotalHeader(uiState.total)
                 AllExpensesHeader()
             }
 
         }
         //esto es solo para muestra es la Ui no se hace los eventos
-        this.items(ExpenseManager.fakeExpenseList) { expense ->
+        this.items(uiState.expenses) { expense ->
             ExpensesItem(expense = expense, onExpenseClick =  onExpenseClick)
         }
     }

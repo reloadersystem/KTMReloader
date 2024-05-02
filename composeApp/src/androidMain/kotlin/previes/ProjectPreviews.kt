@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import data.ExpenseManager
 import model.Expense
 import model.ExpenseCategory
+import presentacion.ExpensesUiState
 import ui.AllExpensesHeader
 import ui.ExpenseTotalHeader
 import ui.ExpensesItem
@@ -53,7 +54,8 @@ fun ExpenseItemPreview() {
 @Composable
 fun ExpensesScreenPreview() {
     Box(modifier = Modifier.padding(16.dp)) {
-        ExpensesScreen(onExpenseClick = {})
+        ExpensesScreen(uiState = ExpensesUiState(expenses = ExpenseManager.fakeExpenseList,
+            total = 1052.2), onExpenseClick = {})
     }
 }
 
