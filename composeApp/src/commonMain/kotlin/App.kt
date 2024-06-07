@@ -92,7 +92,7 @@ fun App() {
                         FloatingActionButton(
                             modifier = Modifier.padding(8.dp),
                             onClick = {
-                                navigator.navigate("/addExpress")
+                                navigator.navigate("/addExpenses")
                             },
                             shape = RoundedCornerShape(50),
                             backgroundColor = colors.addIconColor,
@@ -125,7 +125,7 @@ fun getTitleTopAppBar(navigator: Navigator): String {
     var titleTopBar = TitleTopBarTypes.DASHBOARD
 
     val isOnAddExpenses =
-        navigator.currentEntry.collectAsState(null).value?.route?.route.equals("/addExpenses/{id}")
+        navigator.currentEntry.collectAsState(null).value?.route?.route.equals("/addExpenses/{id}?")
 
     if (isOnAddExpenses) {
         titleTopBar = TitleTopBarTypes.ADD

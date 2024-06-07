@@ -1,6 +1,5 @@
 package navigation
 
-import AppTheme
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -8,13 +7,13 @@ import androidx.compose.ui.Modifier
 import data.ExpenseManager
 import data.ExpenseRepoImpl
 import getColorsTheme
-import model.Expense
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.viewmodel.viewModel
 import presentacion.ExpensesViewModel
+import ui.ExpensesDetailScreen
 import ui.ExpensesScreen
 
 
@@ -38,14 +37,20 @@ fun Navigation(navigator: Navigator) {
                }
            }
 
-           scene(route = "/addExpenses/{id}"){ backStackEntry ->
+           scene(route = "/addExpenses/{id}?"){ backStackEntry ->
                val idFromPath = backStackEntry.path<Long>("id")
 
-               val isAddExpense = idFromPath?. let{id -> viewModel.getExpenseWithID(id)}
+               val expenseToEditOrAdd = idFromPath?. let{ id -> viewModel.getExpenseWithID(id)}
+               
+              ExpensesDetailScreen(expenseToEdit = expenseToEditOrAdd , categoryList = viewModel.getCategories()) { expense ->
 
-
-
-
+                  if(expenseToEditOrAdd==null){
+                      viewModel.addExpense(expense)
+                  }else {
+                      viewModel.editExpense(expense)
+                  }
+                  navigator.popBackStack()
+              }
            }
        }
 

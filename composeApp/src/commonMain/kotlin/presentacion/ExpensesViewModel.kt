@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import model.Expense
+import model.ExpenseCategory
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 
@@ -36,14 +37,14 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
     }
 
 
-    private fun addExpense(expense: Expense) {
+    fun addExpense(expense: Expense) {
         viewModelScope.launch {
             repo.addExpense(expense)
             updateState()
         }
     }
 
-    private fun editExpense(expense: Expense) {
+     fun editExpense(expense: Expense) {
         viewModelScope.launch {
             repo.editExpense(expense)
             updateState()
@@ -65,5 +66,9 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
 
     fun getExpenseWithID(id: Long): Expense {
         return allExpense.first { it.id == id }
+    }
+
+    fun getCategories(): List<ExpenseCategory> {
+        return repo.getCategories()
     }
 }
