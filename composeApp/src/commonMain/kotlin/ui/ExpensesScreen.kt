@@ -19,6 +19,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -42,25 +44,52 @@ fun ExpensesScreen(uiState: ExpensesUiState, onExpenseClick: (expense: Expense) 
 
     val colors = getColorsTheme()
 
-    LazyColumn(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
+    when(uiState){
 
-        stickyHeader {
+        is ExpensesUiState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                CircularProgressIndicator()
+            }
+        }
+        is ExpensesUiState.Success-> {
+            LazyColumn(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
 
-            Column(modifier = Modifier.background(colors.backGroundColor)) {
+                stickyHeader {
 
-                ExpenseTotalHeader(uiState.total)
-                AllExpensesHeader()
+                    Column(modifier = Modifier.background(colors.backGroundColor)) {
+
+                        ExpenseTotalHeader(uiState.total)
+                        AllExpensesHeader()
+                    }
+
+                }
+                //esto es solo para muestra es la Ui no se hace los eventos
+                this.items(uiState.expenses) { expense ->
+                    ExpensesItem(expense = expense, onExpenseClick =  onExpenseClick)
+                }
+            }
+        }
+        is ExpensesUiState.Error -> {
+
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                Text(text = "Error: ${uiState.message}",
+                    style = MaterialTheme.typography.body1
+                )
             }
 
         }
-        //esto es solo para muestra es la Ui no se hace los eventos
-        this.items(uiState.expenses) { expense ->
-            ExpensesItem(expense = expense, onExpenseClick =  onExpenseClick)
-        }
     }
+
+
 }
 
 @Composable

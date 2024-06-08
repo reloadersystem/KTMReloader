@@ -53,10 +53,10 @@ fun ExpenseItemPreview() {
 @Preview(showBackground = true)
 @Composable
 fun ExpensesScreenPreview() {
-    Box(modifier = Modifier.padding(16.dp)) {
-        ExpensesScreen(uiState = ExpensesUiState(expenses = ExpenseManager.fakeExpenseList,
-            total = 1052.2), onExpenseClick = {})
-    }
+    ExpensesScreen(
+        uiState = ExpensesUiState.Success (
+        expenses = ExpenseManager.fakeExpenseList,
+        total = 1052.2), onExpenseClick = {})
 }
 
 
