@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 kotlin {
@@ -38,6 +39,9 @@ kotlin {
             implementation("io.insert-koin:koin-core")
             implementation("io.insert-koin:koin-android")
 
+            //ktor
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.kotlinx.coroutines.android)
 
         }
         commonMain.dependencies {
@@ -63,13 +67,22 @@ kotlin {
             implementation("io.insert-koin:koin-compose")
             api("moe.tlaster:precompose-koin:1.5.10")
 
+            //ktor
+            implementation(libs.ktor.client.core)
+            implementation(libs.kotlinx.coroutines.core)
+
+            implementation(libs.ktor.serialization)
+            implementation(libs.ktor.content.negotiation)
+
+
 
         }
 
         iosMain.dependencies {
             //iOS dependencies
 
-
+            //ktor
+            implementation(libs.ktor.client.darwin)
 
         }
     }
