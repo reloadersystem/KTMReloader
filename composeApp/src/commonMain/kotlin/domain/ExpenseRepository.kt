@@ -13,5 +13,5 @@ interface ExpenseRepository {
 
     fun getCategories(): List<ExpenseCategory>
 
-    suspend fun deleteExpense(expense: Expense): List<Expense>
+    suspend fun deleteExpense(id: Long)
 }

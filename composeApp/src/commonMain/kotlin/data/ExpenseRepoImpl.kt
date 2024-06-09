@@ -3,6 +3,7 @@ package data
 import domain.ExpenseRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.put
@@ -19,11 +20,11 @@ private const val BASE_URL = "http://192.168.1.12:8080"
 class ExpenseRepoImpl(
             private val httpClient: HttpClient
 ) : ExpenseRepository {
-    suspend override fun getAllExpense(): List<Expense> {
+     override suspend fun getAllExpense(): List<Expense> {
 
         val networkResponse = httpClient.get("$BASE_URL/expenses").body<List<NetworkExpense>>()
+        if(networkResponse.isEmpty()) return emptyList()
         return  networkResponse.map { networkExpense ->
-
                     Expense(
                    id = networkExpense.id,
                    amount = networkExpense.amount,
@@ -33,7 +34,7 @@ class ExpenseRepoImpl(
         }
     }
 
-    suspend override fun addExpense(expense: Expense) {
+     override suspend fun addExpense(expense: Expense) {
 
         httpClient.post("$BASE_URL/expenses"){
             contentType(ContentType.Application.Json)
@@ -46,7 +47,7 @@ class ExpenseRepoImpl(
         }
     }
 
-    suspend override fun editExpense(expense: Expense) {
+     override  suspend fun editExpense(expense: Expense) {
         httpClient.put("$BASE_URL/expenses/${expense.id}") {
             contentType(ContentType.Application.Json)
             setBody(
@@ -64,8 +65,7 @@ class ExpenseRepoImpl(
         return ExpenseCategory.values().toList()
     }
 
-    suspend override fun deleteExpense(expense: Expense): List<Expense> {
-        TODO("Not yet implemented")
+     override suspend fun deleteExpense(id: Long) {
+         httpClient.delete("$BASE_URL/expenses/${id}")
     }
-
 }
